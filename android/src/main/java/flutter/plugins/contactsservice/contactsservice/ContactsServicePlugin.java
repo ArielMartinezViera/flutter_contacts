@@ -40,7 +40,7 @@ public class ContactsServicePlugin implements MethodCallHandler {
   private final ContentResolver contentResolver;
 
   public static void registerWith(Registrar registrar) {
-    final MethodChannel channel = new MethodChannel(registrar.messenger(), "github.com/clovisnicolas/flutter_contacts");
+    final MethodChannel channel = new MethodChannel(registrar.messenger(), "github.com/dariorenzulli/flutter_contacts");
     channel.setMethodCallHandler(new ContactsServicePlugin(registrar.context().getContentResolver()));
   }
 

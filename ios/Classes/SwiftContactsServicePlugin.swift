@@ -44,9 +44,9 @@ public class SwiftContactsServicePlugin: NSObject, FlutterPlugin {
         let keys = withThumbnails == true
             ? [CNContactFormatter.descriptorForRequiredKeys(for: .fullName),
                CNContactEmailAddressesKey,
-               CNContactPhoneNumbersKey
-                CNContactFamilyNameKey,
-                CNContactGivenNameKey,
+               CNContactPhoneNumbersKey,
+               CNContactFamilyNameKey,
+               CNContactGivenNameKey
             //    CNContactMiddleNameKey,
             //    CNContactNamePrefixKey,
             //    CNContactNameSuffixKey,
@@ -57,9 +57,9 @@ public class SwiftContactsServicePlugin: NSObject, FlutterPlugin {
             ] as [Any]
             : [CNContactFormatter.descriptorForRequiredKeys(for: .fullName),
                CNContactEmailAddressesKey,
-               CNContactPhoneNumbersKey
-                CNContactFamilyNameKey,
-                CNContactGivenNameKey,
+               CNContactPhoneNumbersKey,
+               CNContactFamilyNameKey,
+               CNContactGivenNameKey
             //    CNContactMiddleNameKey,
             //    CNContactNamePrefixKey,
             //    CNContactNameSuffixKey,

@@ -277,6 +277,12 @@ public class ContactsServicePlugin implements MethodCallHandler {
     //   ops.add(op.build());
     //}
 
+      op = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+      .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+      .withValue(ContactsContract.Data.MIMETYPE,ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE)
+      .withValue(ContactsContract.CommonDataKinds.Photo.PHOTO, contact.avatar);
+      ops.add(op.build());
+
     try {
       contentResolver.applyBatch(ContactsContract.AUTHORITY, ops);
       return true;

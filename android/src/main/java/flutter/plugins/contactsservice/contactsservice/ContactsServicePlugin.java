@@ -85,10 +85,10 @@ public class ContactsServicePlugin implements MethodCallHandler {
       Phone.NUMBER,
       Phone.TYPE,
       Phone.LABEL,
-      // Email.DATA,
-      // Email.ADDRESS,
-      // Email.TYPE,
-      // Email.LABEL,
+      Email.DATA,
+      Email.ADDRESS,
+      Email.TYPE,
+      Email.LABEL,
       // Organization.COMPANY,
       // Organization.TITLE,
       // StructuredPostal.FORMATTED_ADDRESS,
@@ -179,13 +179,13 @@ public class ContactsServicePlugin implements MethodCallHandler {
         }
       }
       //MAILS
-      // else if (mimeType.equals(Email.CONTENT_ITEM_TYPE)) {
-      //   String email = cursor.getString(cursor.getColumnIndex(Email.ADDRESS));
-      //   int type = cursor.getInt(cursor.getColumnIndex(Email.TYPE));
-      //   if (!TextUtils.isEmpty(email)) {
-      //     contact.emails.add(new Item(Item.getEmailLabel(type, cursor),email));
-      //   }
-      // }
+      else if (mimeType.equals(Email.CONTENT_ITEM_TYPE)) {
+        String email = cursor.getString(cursor.getColumnIndex(Email.ADDRESS));
+        int type = cursor.getInt(cursor.getColumnIndex(Email.TYPE));
+        if (!TextUtils.isEmpty(email)) {
+          contact.emails.add(new Item(Item.getEmailLabel(type, cursor),email));
+        }
+      }
       //ORG
       // else if (mimeType.equals(Organization.CONTENT_ITEM_TYPE)) {
       //   contact.company = cursor.getString(cursor.getColumnIndex(Organization.COMPANY));

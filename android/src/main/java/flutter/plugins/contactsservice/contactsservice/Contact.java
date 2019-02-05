@@ -11,24 +11,25 @@ public class Contact {
     private Contact(){}
 
     String identifier;
-    String displayName; //, givenName, middleName, familyName, prefix, suffix, company, jobTitle;
+    //String displayName, givenName, middleName, familyName, prefix, suffix, company, jobTitle;
+    String displayName, givenName, familyName;
     ArrayList<Item> emails = new ArrayList<>();
     ArrayList<Item> phones = new ArrayList<>();
     // ArrayList<PostalAddress> postalAddresses = new ArrayList<>();
-    // byte[] avatar = new byte[0];
+    byte[] avatar = new byte[0];
 
     HashMap<String,Object> toMap(){
         HashMap<String,Object> contactMap = new HashMap<>();
         contactMap.put("identifier", identifier);
         contactMap.put("displayName",displayName);
-        // contactMap.put("givenName",givenName);
+        contactMap.put("givenName",givenName);
         // contactMap.put("middleName",middleName);
-        // contactMap.put("familyName",familyName);
+        contactMap.put("familyName",familyName);
         // contactMap.put("prefix", prefix);
         // contactMap.put("suffix", suffix);
         // contactMap.put("company",company);
         // contactMap.put("jobTitle",jobTitle);
-        // contactMap.put("avatar",avatar);
+        contactMap.put("avatar",avatar);
 
         ArrayList<HashMap<String,String>> emailsMap = new ArrayList<>();
         for(Item email : emails){
@@ -55,14 +56,14 @@ public class Contact {
     static Contact fromMap(HashMap map){
         Contact contact = new Contact();
         contact.identifier = (String)map.get("identifier");
-        // contact.givenName = (String)map.get("givenName");
+        contact.givenName = (String)map.get("givenName");
         // contact.middleName = (String)map.get("middleName");
-        // contact.familyName = (String)map.get("familyName");
+        contact.familyName = (String)map.get("familyName");
         // contact.prefix = (String)map.get("prefix");
         // contact.suffix = (String)map.get("suffix");
         // contact.company = (String)map.get("company");
         // contact.jobTitle = (String)map.get("jobTitle");
-        // contact.avatar = (byte[]) map.get("avatar");
+        contact.avatar = (byte[]) map.get("avatar");
 
         ArrayList<HashMap> emails = (ArrayList<HashMap>) map.get("emails");
         if(emails != null){

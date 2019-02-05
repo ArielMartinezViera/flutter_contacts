@@ -77,9 +77,9 @@ public class ContactsServicePlugin implements MethodCallHandler {
       ContactsContract.Profile.DISPLAY_NAME,
       ContactsContract.Contacts.Data.MIMETYPE,
       StructuredName.DISPLAY_NAME,
-      // StructuredName.GIVEN_NAME,
+      StructuredName.GIVEN_NAME,
       // StructuredName.MIDDLE_NAME,
-      // StructuredName.FAMILY_NAME,
+      StructuredName.FAMILY_NAME,
       // StructuredName.PREFIX,
       // StructuredName.SUFFIX,
       Phone.NUMBER,
@@ -218,84 +218,84 @@ public class ContactsServicePlugin implements MethodCallHandler {
 
    private boolean addContact(Contact contact){
 
-  //   ArrayList<ContentProviderOperation> ops = new ArrayList<>();
+    ArrayList<ContentProviderOperation> ops = new ArrayList<>();
 
-  //   ContentProviderOperation.Builder op = ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI)
-  //           .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
-  //           .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null);
-  //   ops.add(op.build());
+    ContentProviderOperation.Builder op = ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI)
+            .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
+            .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null);
+    ops.add(op.build());
 
-  //   op = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-  //           .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
-  //           .withValue(ContactsContract.Data.MIMETYPE, StructuredName.CONTENT_ITEM_TYPE)
-  //           .withValue(StructuredName.GIVEN_NAME, contact.givenName)
-  //           .withValue(StructuredName.MIDDLE_NAME, contact.middleName)
-  //           .withValue(StructuredName.FAMILY_NAME, contact.familyName)
-  //           .withValue(StructuredName.PREFIX, contact.prefix)
-  //           .withValue(StructuredName.SUFFIX, contact.suffix);
-  //   ops.add(op.build());
+    op = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+            .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+            .withValue(ContactsContract.Data.MIMETYPE, StructuredName.CONTENT_ITEM_TYPE)
+            .withValue(StructuredName.GIVEN_NAME, contact.givenName)
+            //.withValue(StructuredName.MIDDLE_NAME, contact.middleName)
+            .withValue(StructuredName.FAMILY_NAME, contact.familyName);
+            //.withValue(StructuredName.PREFIX, contact.prefix)
+            //.withValue(StructuredName.SUFFIX, contact.suffix);
+    ops.add(op.build());
 
-  //   op = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-  //           .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
-  //           .withValue(ContactsContract.Data.MIMETYPE, Organization.CONTENT_ITEM_TYPE)
-  //           .withValue(Organization.COMPANY, contact.company)
-  //           .withValue(Organization.TITLE, contact.jobTitle);
-  //   ops.add(op.build());
+    // op = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+    //         .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+    //         .withValue(ContactsContract.Data.MIMETYPE, Organization.CONTENT_ITEM_TYPE)
+    //         .withValue(Organization.COMPANY, contact.company)
+    //         .withValue(Organization.TITLE, contact.jobTitle);
+    // ops.add(op.build());
 
-  //   op.withYieldAllowed(true);
+    op.withYieldAllowed(true);
 
-  //   //Phones
-  //   for(Item phone : contact.phones){
-  //     op = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-  //             .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
-  //             .withValue(ContactsContract.Data.MIMETYPE, CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
-  //             .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, phone.value)
-  //             .withValue(CommonDataKinds.Phone.TYPE, Item.stringToPhoneType(phone.label));
-  //     ops.add(op.build());
-  //   }
+    //Phones
+    for(Item phone : contact.phones){
+      op = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+              .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+              .withValue(ContactsContract.Data.MIMETYPE, CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
+              .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, phone.value)
+              .withValue(CommonDataKinds.Phone.TYPE, Item.stringToPhoneType(phone.label));
+      ops.add(op.build());
+    }
 
-  //   //Emails
-  //   for (Item email : contact.emails) {
-  //     op = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-  //             .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
-  //             .withValue(ContactsContract.Data.MIMETYPE, CommonDataKinds.Email.CONTENT_ITEM_TYPE)
-  //             .withValue(CommonDataKinds.Email.ADDRESS, email.value)
-  //             .withValue(CommonDataKinds.Email.TYPE, Item.stringToEmailType(email.label));
-  //     ops.add(op.build());
-  //   }
-  //   //Postal addresses
-  //   for (PostalAddress address : contact.postalAddresses) {
-  //     op = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
-  //             .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
-  //             .withValue(ContactsContract.Data.MIMETYPE, CommonDataKinds.StructuredPostal.CONTENT_ITEM_TYPE)
-  //             .withValue(CommonDataKinds.StructuredPostal.TYPE, PostalAddress.stringToPostalAddressType(address.label))
-  //             .withValue(CommonDataKinds.StructuredPostal.STREET, address.street)
-  //             .withValue(CommonDataKinds.StructuredPostal.CITY, address.city)
-  //             .withValue(CommonDataKinds.StructuredPostal.REGION, address.region)
-  //             .withValue(CommonDataKinds.StructuredPostal.POSTCODE, address.postcode)
-  //             .withValue(CommonDataKinds.StructuredPostal.COUNTRY, address.country);
-  //     ops.add(op.build());
-  //   }
+    //Emails
+    for (Item email : contact.emails) {
+      op = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+              .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+              .withValue(ContactsContract.Data.MIMETYPE, CommonDataKinds.Email.CONTENT_ITEM_TYPE)
+              .withValue(CommonDataKinds.Email.ADDRESS, email.value)
+              .withValue(CommonDataKinds.Email.TYPE, Item.stringToEmailType(email.label));
+      ops.add(op.build());
+    }
+    //Postal addresses
+    // for (PostalAddress address : contact.postalAddresses) {
+    //   op = ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+    //           .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0)
+    //           .withValue(ContactsContract.Data.MIMETYPE, CommonDataKinds.StructuredPostal.CONTENT_ITEM_TYPE)
+    //           .withValue(CommonDataKinds.StructuredPostal.TYPE, PostalAddress.stringToPostalAddressType(address.label))
+    //           .withValue(CommonDataKinds.StructuredPostal.STREET, address.street)
+    //           .withValue(CommonDataKinds.StructuredPostal.CITY, address.city)
+    //           .withValue(CommonDataKinds.StructuredPostal.REGION, address.region)
+    //           .withValue(CommonDataKinds.StructuredPostal.POSTCODE, address.postcode)
+    //           .withValue(CommonDataKinds.StructuredPostal.COUNTRY, address.country);
+    //   ops.add(op.build());
+    //}
 
-  //   try {
-  //     contentResolver.applyBatch(ContactsContract.AUTHORITY, ops);
-  //     return true;
-  //   } catch (Exception e) {
-       return false;
-  //   }
+    try {
+      contentResolver.applyBatch(ContactsContract.AUTHORITY, ops);
+      return true;
+    } catch (Exception e) {
+      return false;
+    }
    }
 
  private boolean deleteContact(Contact contact){
-  //   ArrayList<ContentProviderOperation> ops = new ArrayList<>();
-  //   ops.add(ContentProviderOperation.newDelete(ContactsContract.Data.CONTENT_URI)
-  //           .withSelection(ContactsContract.Data.CONTACT_ID + "=?", new String[]{String.valueOf(contact.identifier)})
-  //           .build());
-  //   try {
-  //     contentResolver.applyBatch(ContactsContract.AUTHORITY, ops);
-  //     return true;
-  //   } catch (Exception e) {
+    ArrayList<ContentProviderOperation> ops = new ArrayList<>();
+    ops.add(ContentProviderOperation.newDelete(ContactsContract.Data.CONTENT_URI)
+            .withSelection(ContactsContract.Data.CONTACT_ID + "=?", new String[]{String.valueOf(contact.identifier)})
+            .build());
+    try {
+      contentResolver.applyBatch(ContactsContract.AUTHORITY, ops);
+      return true;
+    } catch (Exception e) {
        return false;
-  //   }
+     }
   }
 
 }

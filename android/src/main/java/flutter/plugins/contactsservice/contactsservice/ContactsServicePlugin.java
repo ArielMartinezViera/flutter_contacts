@@ -122,7 +122,23 @@ public class ContactsServicePlugin implements MethodCallHandler {
   
     @TargetApi(Build.VERSION_CODES.ECLAIR)
     protected ArrayList<HashMap> doInBackground(String... query) {
-      return getContactsFrom(getCursor(query[0]), withThumbnails);
+      ArrayList<HashMap> contactMaps = new ArrayList<>();
+
+      ArrayList<Contact> contacts = getContactsFrom(getCursor(query[0]));
+      
+      if (withThumbnails) {
+        for(Contact c : contacts){
+          setAvatarDataForContactIfAvailable(c);
+          contactMaps.add(c.toMap());
+        }
+      }
+      else {
+        for(Contact c : contacts){
+          contactMaps.add(c.toMap());
+        }
+      }
+
+      return contactMaps;
     }
 
     protected void onPostExecute(ArrayList<HashMap> result) {
@@ -145,9 +161,8 @@ public class ContactsServicePlugin implements MethodCallHandler {
    * @param cursor
    * @return the list of contacts
    */
-  private ArrayList<HashMap> getContactsFrom(Cursor cursor, boolean withThumbnails) {
+  private ArrayList<Contact> getContactsFrom(Cursor cursor) {
     HashMap<String, Contact> map = new LinkedHashMap<>();
-    ArrayList<HashMap> contactMaps = new ArrayList<>();
 
     while (cursor != null && cursor.moveToNext()) {
       int columnIndex = cursor.getColumnIndex(ContactsContract.Data.CONTACT_ID);
@@ -194,14 +209,8 @@ public class ContactsServicePlugin implements MethodCallHandler {
       else if (mimeType.equals(StructuredPostal.CONTENT_ITEM_TYPE)) {
         contact.postalAddresses.add(new PostalAddress(cursor));
       }
-
-      if (withThumbnails) {
-        setAvatarDataForContactIfAvailable(contact);
-      }
-
-      contactMaps.add(contact.toMap());
     }
-    return contactMaps;
+    return new ArrayList<>(map.values());
   }
 
   private void setAvatarDataForContactIfAvailable(Contact contact) {

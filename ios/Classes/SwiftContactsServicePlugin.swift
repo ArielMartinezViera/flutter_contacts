@@ -44,27 +44,29 @@ public class SwiftContactsServicePlugin: NSObject, FlutterPlugin {
         let keys = withThumbnails == true
             ? [CNContactFormatter.descriptorForRequiredKeys(for: .fullName),
                CNContactEmailAddressesKey,
-               CNContactPhoneNumbersKey,
-               CNContactFamilyNameKey,
-               CNContactGivenNameKey,
-               CNContactMiddleNameKey,
-               CNContactNamePrefixKey,
-               CNContactNameSuffixKey,
-               CNContactPostalAddressesKey,
-               CNContactOrganizationNameKey,
-               CNContactThumbnailImageDataKey,
-               CNContactJobTitleKey] as [Any]
+               CNContactPhoneNumbersKey
+            //    CNContactFamilyNameKey,
+            //    CNContactGivenNameKey,
+            //    CNContactMiddleNameKey,
+            //    CNContactNamePrefixKey,
+            //    CNContactNameSuffixKey,
+            //    CNContactPostalAddressesKey,
+            //    CNContactOrganizationNameKey,
+            //    CNContactThumbnailImageDataKey,
+            //    CNContactJobTitleKey
+            ] as [Any]
             : [CNContactFormatter.descriptorForRequiredKeys(for: .fullName),
                CNContactEmailAddressesKey,
-               CNContactPhoneNumbersKey,
-               CNContactFamilyNameKey,
-               CNContactGivenNameKey,
-               CNContactMiddleNameKey,
-               CNContactNamePrefixKey,
-               CNContactNameSuffixKey,
-               CNContactPostalAddressesKey,
-               CNContactOrganizationNameKey,
-               CNContactJobTitleKey] as [Any]
+               CNContactPhoneNumbersKey
+            //    CNContactFamilyNameKey,
+            //    CNContactGivenNameKey,
+            //    CNContactMiddleNameKey,
+            //    CNContactNamePrefixKey,
+            //    CNContactNameSuffixKey,
+            //    CNContactPostalAddressesKey,
+            //    CNContactOrganizationNameKey,
+            //    CNContactJobTitleKey
+            ] as [Any]
         let fetchRequest = CNContactFetchRequest(keysToFetch: keys as! [CNKeyDescriptor])
         // Set the predicate if there is a query
         if let query = query{
@@ -125,16 +127,16 @@ public class SwiftContactsServicePlugin: NSObject, FlutterPlugin {
         let contact = CNMutableContact()
 
         //Simple fields
-        contact.givenName = dictionary["givenName"] as? String ?? ""
-        contact.familyName = dictionary["familyName"] as? String ?? ""
-        contact.middleName = dictionary["middleName"] as? String ?? ""
-        contact.namePrefix = dictionary["prefix"] as? String ?? ""
-        contact.nameSuffix = dictionary["suffix"] as? String ?? ""
-        contact.organizationName = dictionary["company"] as? String ?? ""
-        contact.jobTitle = dictionary["jobTitle"] as? String ?? ""
-        if let avatarData = (dictionary["avatar"] as? FlutterStandardTypedData)?.data {
-            contact.imageData = avatarData
-        }
+        // contact.givenName = dictionary["givenName"] as? String ?? ""
+        // contact.familyName = dictionary["familyName"] as? String ?? ""
+        // contact.middleName = dictionary["middleName"] as? String ?? ""
+        // contact.namePrefix = dictionary["prefix"] as? String ?? ""
+        // contact.nameSuffix = dictionary["suffix"] as? String ?? ""
+        // contact.organizationName = dictionary["company"] as? String ?? ""
+        // contact.jobTitle = dictionary["jobTitle"] as? String ?? ""
+        // if let avatarData = (dictionary["avatar"] as? FlutterStandardTypedData)?.data {
+        //     contact.imageData = avatarData
+        // }
 
         //Phone numbers
         if let phoneNumbers = dictionary["phones"] as? [[String:String]]{
@@ -152,18 +154,18 @@ public class SwiftContactsServicePlugin: NSObject, FlutterPlugin {
         }
 
         //Postal addresses
-        if let postalAddresses = dictionary["postalAddresses"] as? [[String:String]]{
-            for postalAddress in postalAddresses{
-                let newAddress = CNMutablePostalAddress()
-                newAddress.street = postalAddress["street"] ?? ""
-                newAddress.city = postalAddress["city"] ?? ""
-                newAddress.postalCode = postalAddress["postcode"] ?? ""
-                newAddress.country = postalAddress["country"] ?? ""
-                newAddress.state = postalAddress["region"] ?? ""
-                let label = postalAddress["label"] ?? ""
-                contact.postalAddresses.append(CNLabeledValue(label:label, value:newAddress))
-            }
-        }
+        // if let postalAddresses = dictionary["postalAddresses"] as? [[String:String]]{
+        //     for postalAddress in postalAddresses{
+        //         let newAddress = CNMutablePostalAddress()
+        //         newAddress.street = postalAddress["street"] ?? ""
+        //         newAddress.city = postalAddress["city"] ?? ""
+        //         newAddress.postalCode = postalAddress["postcode"] ?? ""
+        //         newAddress.country = postalAddress["country"] ?? ""
+        //         newAddress.state = postalAddress["region"] ?? ""
+        //         let label = postalAddress["label"] ?? ""
+        //         contact.postalAddresses.append(CNLabeledValue(label:label, value:newAddress))
+        //     }
+        // }
 
         return contact
     }
@@ -175,18 +177,18 @@ public class SwiftContactsServicePlugin: NSObject, FlutterPlugin {
         //Simple fields
         result["identifier"] = contact.identifier
         result["displayName"] = CNContactFormatter.string(from: contact, style: CNContactFormatterStyle.fullName)
-        result["givenName"] = contact.givenName
-        result["familyName"] = contact.familyName
-        result["middleName"] = contact.middleName
-        result["prefix"] = contact.namePrefix
-        result["suffix"] = contact.nameSuffix
-        result["company"] = contact.organizationName
-        result["jobTitle"] = contact.jobTitle
-        if contact.isKeyAvailable(CNContactThumbnailImageDataKey) {
-            if let avatarData = contact.thumbnailImageData {
-                result["avatar"] = FlutterStandardTypedData(bytes: avatarData)
-            }
-        }
+        // result["givenName"] = contact.givenName
+        // result["familyName"] = contact.familyName
+        // result["middleName"] = contact.middleName
+        // result["prefix"] = contact.namePrefix
+        // result["suffix"] = contact.nameSuffix
+        // result["company"] = contact.organizationName
+        // result["jobTitle"] = contact.jobTitle
+        // if contact.isKeyAvailable(CNContactThumbnailImageDataKey) {
+        //     if let avatarData = contact.thumbnailImageData {
+        //         result["avatar"] = FlutterStandardTypedData(bytes: avatarData)
+        //     }
+        // }
         
         //Phone numbers
         var phoneNumbers = [[String:String]]()
@@ -215,22 +217,22 @@ public class SwiftContactsServicePlugin: NSObject, FlutterPlugin {
         result["emails"] = emailAddresses
         
         //Postal addresses
-        var postalAddresses = [[String:String]]()
-        for address in contact.postalAddresses{
-            var addressDictionary = [String:String]()
-            addressDictionary["label"] = ""
-            if let label = address.label{
-                addressDictionary["label"] = CNLabeledValue<NSString>.localizedString(forLabel: label)
-            }
-            addressDictionary["street"] = address.value.street
-            addressDictionary["city"] = address.value.city
-            addressDictionary["postcode"] = address.value.postalCode
-            addressDictionary["region"] = address.value.state
-            addressDictionary["country"] = address.value.country
+        // var postalAddresses = [[String:String]]()
+        // for address in contact.postalAddresses{
+        //     var addressDictionary = [String:String]()
+        //     addressDictionary["label"] = ""
+        //     if let label = address.label{
+        //         addressDictionary["label"] = CNLabeledValue<NSString>.localizedString(forLabel: label)
+        //     }
+        //     addressDictionary["street"] = address.value.street
+        //     addressDictionary["city"] = address.value.city
+        //     addressDictionary["postcode"] = address.value.postalCode
+        //     addressDictionary["region"] = address.value.state
+        //     addressDictionary["country"] = address.value.country
             
-            postalAddresses.append(addressDictionary)
-        }
-        result["postalAddresses"] = postalAddresses
+        //     postalAddresses.append(addressDictionary)
+        // }
+        // result["postalAddresses"] = postalAddresses
         
         return result
     }

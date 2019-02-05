@@ -127,8 +127,8 @@ public class SwiftContactsServicePlugin: NSObject, FlutterPlugin {
         let contact = CNMutableContact()
 
         //Simple fields
-        // contact.givenName = dictionary["givenName"] as? String ?? ""
-        // contact.familyName = dictionary["familyName"] as? String ?? ""
+        contact.givenName = dictionary["givenName"] as? String ?? ""
+        contact.familyName = dictionary["familyName"] as? String ?? ""
         // contact.middleName = dictionary["middleName"] as? String ?? ""
         // contact.namePrefix = dictionary["prefix"] as? String ?? ""
         // contact.nameSuffix = dictionary["suffix"] as? String ?? ""
@@ -177,8 +177,8 @@ public class SwiftContactsServicePlugin: NSObject, FlutterPlugin {
         //Simple fields
         result["identifier"] = contact.identifier
         result["displayName"] = CNContactFormatter.string(from: contact, style: CNContactFormatterStyle.fullName)
-        // result["givenName"] = contact.givenName
-        // result["familyName"] = contact.familyName
+        result["givenName"] = contact.givenName
+        result["familyName"] = contact.familyName
         // result["middleName"] = contact.middleName
         // result["prefix"] = contact.namePrefix
         // result["suffix"] = contact.nameSuffix

@@ -115,14 +115,14 @@ public class ContactsServicePlugin implements MethodCallHandler {
     private Result getContactResult;
     private boolean withThumbnails;
 	
-	public GetContactsTask(Result result, boolean withThumbnails){
-	  this.getContactResult = result;
-	  this.withThumbnails = withThumbnails;
-	}
+    public GetContactsTask(Result result, boolean withThumbnails){
+      this.getContactResult = result;
+      this.withThumbnails = withThumbnails;
+    }
   
     @TargetApi(Build.VERSION_CODES.ECLAIR)
     protected ArrayList<HashMap> doInBackground(String... query) {
-      return getContactsFrom(getCursor(query[0]));
+      return getContactsFrom(getCursor(query[0]), withThumbnails);
     }
 
     protected void onPostExecute(ArrayList<HashMap> result) {
@@ -145,7 +145,7 @@ public class ContactsServicePlugin implements MethodCallHandler {
    * @param cursor
    * @return the list of contacts
    */
-  private ArrayList<HashMap> getContactsFrom(Cursor cursor) {
+  private ArrayList<HashMap> getContactsFrom(Cursor cursor, boolean withThumbnails) {
     HashMap<String, Contact> map = new LinkedHashMap<>();
     ArrayList<HashMap> contactMaps = new ArrayList<>();
 

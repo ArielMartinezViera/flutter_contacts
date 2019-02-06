@@ -131,18 +131,16 @@ public class ContactsServicePlugin implements MethodCallHandler {
    * @return the list of contacts
    */
   private ArrayList<HashMap> getContactsFrom(Cursor cursor) {
-    java.util.Set<String> map = new java.util.HashSet<>();
-    ArrayList<HashMap> contactMaps = new ArrayList<>();
+    HashMap<String, Contact> map = new LinkedHashMap<>();
 
     while (cursor != null && cursor.moveToNext()) {
       int columnIndex = cursor.getColumnIndex(ContactsContract.Data.CONTACT_ID);
       String contactId = cursor.getString(columnIndex);
 
-      if (!map.contains(contactId)) {
-        map.add(contactId);
+      if (!map.containsKey(contactId)) {
+        map.put(contactId, new Contact(contactId));
       }
-
-      Contact contact = new Contact(contactId);
+      Contact contact = map.get(contactId);
 
       String mimeType = cursor.getString(cursor.getColumnIndex(ContactsContract.Data.MIMETYPE));
       contact.displayName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
@@ -169,10 +167,14 @@ public class ContactsServicePlugin implements MethodCallHandler {
           contact.emails.add(new Item(Item.getEmailLabel(type, cursor),email));
         }
       }
-
-      contactMaps.add(contact.toMap());
     }
-    return contactMaps;
+    ArrayList<Contact> contacts = new ArrayList<>(map.values());
+    ArrayList<HashMap> contactMaps = new ArrayList<>();
+      for(Contact c : contacts){
+        contactMaps.add(c.toMap());
+      }
+
+      return contactMaps;
   }
 
   // private void setAvatarDataForContactIfAvailable(Contact contact) {

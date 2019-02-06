@@ -153,11 +153,9 @@ public class ContactsServicePlugin implements MethodCallHandler {
       int columnIndex = cursor.getColumnIndex(ContactsContract.Data.CONTACT_ID);
       String contactId = cursor.getString(columnIndex);
 
-      if (map.contains(contactId)) {
-        continue;
+      if (!map.contains(contactId)) {
+        map.add(contactId);
       }
-
-      map.add(contactId);
 
       Contact contact = new Contact(contactId);
 

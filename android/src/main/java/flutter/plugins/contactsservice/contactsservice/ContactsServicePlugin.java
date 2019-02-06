@@ -146,17 +146,20 @@ public class ContactsServicePlugin implements MethodCallHandler {
    * @return the list of contacts
    */
   private ArrayList<HashMap> getContactsFrom(Cursor cursor) {
-    HashMap<String, Contact> map = new LinkedHashMap<>();
+    java.util.Set<String> map = new java.util.HashSet<>();
     ArrayList<HashMap> contactMaps = new ArrayList<>();
 
     while (cursor != null && cursor.moveToNext()) {
       int columnIndex = cursor.getColumnIndex(ContactsContract.Data.CONTACT_ID);
       String contactId = cursor.getString(columnIndex);
 
-      if (!map.containsKey(contactId)) {
-        map.put(contactId, new Contact(contactId));
+      if (map.contains(contactId)) {
+        continue;
       }
-      Contact contact = map.get(contactId);
+
+      map.add(contactId);
+
+      Contact contact = new Contact(contactId);
 
       String mimeType = cursor.getString(cursor.getColumnIndex(ContactsContract.Data.MIMETYPE));
       contact.displayName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));

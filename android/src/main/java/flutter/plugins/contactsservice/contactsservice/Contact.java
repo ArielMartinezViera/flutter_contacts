@@ -11,11 +11,10 @@ public class Contact {
     private Contact(){}
 
     String identifier;
-    //String displayName, givenName, middleName, familyName, prefix, suffix, company, jobTitle;
-    String displayName, givenName, familyName;
+    String displayName, givenName, middleName, familyName, prefix, suffix, company, jobTitle;
     ArrayList<Item> emails = new ArrayList<>();
     ArrayList<Item> phones = new ArrayList<>();
-    // ArrayList<PostalAddress> postalAddresses = new ArrayList<>();
+    ArrayList<PostalAddress> postalAddresses = new ArrayList<>();
     byte[] avatar = new byte[0];
 
     HashMap<String,Object> toMap(){
@@ -23,12 +22,12 @@ public class Contact {
         contactMap.put("identifier", identifier);
         contactMap.put("displayName",displayName);
         contactMap.put("givenName",givenName);
-        // contactMap.put("middleName",middleName);
+        contactMap.put("middleName",middleName);
         contactMap.put("familyName",familyName);
-        // contactMap.put("prefix", prefix);
-        // contactMap.put("suffix", suffix);
-        // contactMap.put("company",company);
-        // contactMap.put("jobTitle",jobTitle);
+        contactMap.put("prefix", prefix);
+        contactMap.put("suffix", suffix);
+        contactMap.put("company",company);
+        contactMap.put("jobTitle",jobTitle);
         contactMap.put("avatar",avatar);
 
         ArrayList<HashMap<String,String>> emailsMap = new ArrayList<>();
@@ -43,11 +42,11 @@ public class Contact {
         }
         contactMap.put("phones",phonesMap);
 
-        // ArrayList<HashMap<String,String>> addressesMap = new ArrayList<>();
-        // for(PostalAddress address : postalAddresses){
-        //     addressesMap.add(address.map);
-        // }
-        // contactMap.put("postalAddresses",addressesMap);
+        ArrayList<HashMap<String,String>> addressesMap = new ArrayList<>();
+        for(PostalAddress address : postalAddresses){
+            addressesMap.add(address.map);
+        }
+        contactMap.put("postalAddresses",addressesMap);
 
         return contactMap;
     }
@@ -57,12 +56,12 @@ public class Contact {
         Contact contact = new Contact();
         contact.identifier = (String)map.get("identifier");
         contact.givenName = (String)map.get("givenName");
-        // contact.middleName = (String)map.get("middleName");
+        contact.middleName = (String)map.get("middleName");
         contact.familyName = (String)map.get("familyName");
-        // contact.prefix = (String)map.get("prefix");
-        // contact.suffix = (String)map.get("suffix");
-        // contact.company = (String)map.get("company");
-        // contact.jobTitle = (String)map.get("jobTitle");
+        contact.prefix = (String)map.get("prefix");
+        contact.suffix = (String)map.get("suffix");
+        contact.company = (String)map.get("company");
+        contact.jobTitle = (String)map.get("jobTitle");
         contact.avatar = (byte[]) map.get("avatar");
 
         ArrayList<HashMap> emails = (ArrayList<HashMap>) map.get("emails");
@@ -77,12 +76,12 @@ public class Contact {
                 contact.phones.add(Item.fromMap(phone));
             }
         }
-        // ArrayList<HashMap> postalAddresses = (ArrayList<HashMap>) map.get("postalAddresses");
-        // if(postalAddresses != null) {
-        //     for (HashMap postalAddress : postalAddresses) {
-        //         contact.postalAddresses.add(PostalAddress.fromMap(postalAddress));
-        //     }
-        // }
+        ArrayList<HashMap> postalAddresses = (ArrayList<HashMap>) map.get("postalAddresses");
+        if(postalAddresses != null) {
+            for (HashMap postalAddress : postalAddresses) {
+                contact.postalAddresses.add(PostalAddress.fromMap(postalAddress));
+            }
+        }
         return contact;
     }
 }

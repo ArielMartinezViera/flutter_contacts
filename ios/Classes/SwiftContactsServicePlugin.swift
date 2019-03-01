@@ -5,7 +5,7 @@ import Contacts
 @available(iOS 9.0, *)
 public class SwiftContactsServicePlugin: NSObject, FlutterPlugin {
     public static func register(with registrar: FlutterPluginRegistrar) {
-        let channel = FlutterMethodChannel(name: "github.com/dariorenzulli/flutter_contacts", binaryMessenger: registrar.messenger())
+        let channel = FlutterMethodChannel(name: "github.com/ArielMartinezViera/flutter_contacts", binaryMessenger: registrar.messenger())
         let instance = SwiftContactsServicePlugin()
         registrar.addMethodCallDelegate(instance, channel: channel)
     }

@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   const MethodChannel channel =
-      MethodChannel('github.com/dariorenzulli/flutter_contacts');
+      MethodChannel('github.com/ArielMartinezViera/flutter_contacts');
   final List<MethodCall> log = <MethodCall>[];
   channel.setMockMethodCallHandler((MethodCall methodCall) async {
     log.add(methodCall);
